@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -34,10 +35,14 @@ public abstract class AbstractTickingMenuBlock extends AbstractMenuBlock {
 		});
 	}
 
+	public AbstractTickingMenuBlock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType,
+			ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
+	}
+
 	protected abstract void tick(Block b, BlockMenu menu);
 	
     protected boolean synchronous() {
         return false;
     }
-
 }

@@ -2,3 +2,8 @@ options:
   auto-update: true
   name: "&d&lHighrise&2&lSF"
   message-color: "&f"
+machine-settings:
+   uu-generator:
+      power-per-tick: 1 # the amount of power it draws from the system for being inactive
+      power-per-process: 104 # the amount of power it draws from the system every time a process is completed
+   enable-compact-machines: false

@@ -26,6 +26,10 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+/**
+ * AbstractMenuBlock creates a {@link SlimefunItem} with an associated {@link BlockMenu}.
+ * @author cworldstar
+ */
 public abstract class AbstractMenuBlock extends SlimefunItem {
 
 

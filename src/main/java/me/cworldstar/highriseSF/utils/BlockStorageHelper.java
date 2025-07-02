@@ -30,8 +30,7 @@ public class BlockStorageHelper {
 		return (JsonObject) JsonParser.parseString(s);
 	}
 	
-	/**
-	 * 
+	/** 
 	 * @param {@link String} blockstorage
 	 * @return A {@link Map} containing every key and value of the given blockstorage.
 	 */

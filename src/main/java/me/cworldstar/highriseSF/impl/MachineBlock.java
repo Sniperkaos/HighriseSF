@@ -72,4 +72,9 @@ public class MachineBlock extends AbstractMachineBlock {
 		return 0;
 	}
 
+	@Override
+	public ItemStack getProcessingItem(Block b) {
+		return PROCESSING_ITEM;
+	}
+
 }

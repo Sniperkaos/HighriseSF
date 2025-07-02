@@ -1,7 +1,9 @@
 package me.cworldstar.highriseSF.impl.items;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -25,25 +27,36 @@ public class CompressedItem {
 	
 	public CompressedItem(ItemGroup itemGroup, Material m) {
 		ItemStack materialItemStack = new ItemStack(m);
-		@NotNull Component materialName = materialItemStack.getItemMeta().itemName();
+		String materialName = materialItemStack.getType().name().toLowerCase();
+		String[] words = materialName.split("_");
+		materialName = "";
+		for(String word : words) {
+			Character firstLetter = word.substring(0, 1).charAt(0);
+			ArrayList<Character> editableWord =  new ArrayList<Character>(word.chars().mapToObj(ch -> ((char) ch)).collect(Collectors.toList()));
+			editableWord.set(0, Character.toUpperCase(firstLetter));
+			for(Character c : editableWord) {
+				materialName += c;
+			}
+			materialName += " ";
+		}
 		
-		ItemStack COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&cCompressed " + materialName.examinableName());
-		ItemStack DOUBLE_COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&4Double Compressed " + materialName.examinableName());
-		ItemStack TRIPLE_COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&6Triple Compressed " + materialName.examinableName());
+		ItemStack COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&cCompressed " + materialName);
+		ItemStack DOUBLE_COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&4Double Compressed " + materialName);
+		ItemStack TRIPLE_COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&6Triple Compressed " + materialName);
 		
-		items.add(fromItemStack(itemGroup, COMPRESSED_ITEM, "COMPRESSED_"+ materialName.examinableName().toUpperCase(), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+		items.add(fromItemStack(itemGroup, COMPRESSED_ITEM, "COMPRESSED_"+ materialName.toUpperCase(), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
 				materialItemStack, materialItemStack, materialItemStack,
 				materialItemStack, materialItemStack, materialItemStack,
 				materialItemStack, materialItemStack, materialItemStack
 		}));
 		
-		items.add(fromItemStack(itemGroup, DOUBLE_COMPRESSED_ITEM, "DCOMPRESSED_"+ materialName.examinableName().toUpperCase(), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+		items.add(fromItemStack(itemGroup, DOUBLE_COMPRESSED_ITEM, "DCOMPRESSED_"+ materialName.toUpperCase(), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
 				COMPRESSED_ITEM, COMPRESSED_ITEM, COMPRESSED_ITEM,
 				COMPRESSED_ITEM, COMPRESSED_ITEM, COMPRESSED_ITEM,
 				COMPRESSED_ITEM, COMPRESSED_ITEM, COMPRESSED_ITEM
 		}));
 		
-		items.add(fromItemStack(itemGroup, TRIPLE_COMPRESSED_ITEM, "TCOMPRESSED_"+ materialName.examinableName().toUpperCase(), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+		items.add(fromItemStack(itemGroup, TRIPLE_COMPRESSED_ITEM, "TCOMPRESSED_"+ materialName.toUpperCase(), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
 				DOUBLE_COMPRESSED_ITEM, DOUBLE_COMPRESSED_ITEM, DOUBLE_COMPRESSED_ITEM,
 				DOUBLE_COMPRESSED_ITEM, DOUBLE_COMPRESSED_ITEM, DOUBLE_COMPRESSED_ITEM,
 				DOUBLE_COMPRESSED_ITEM, DOUBLE_COMPRESSED_ITEM, DOUBLE_COMPRESSED_ITEM

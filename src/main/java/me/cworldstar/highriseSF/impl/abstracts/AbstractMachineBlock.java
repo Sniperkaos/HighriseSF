@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -27,7 +28,11 @@ public abstract class AbstractMachineBlock extends AbstractTickingMenuBlock impl
 		super(itemGroup, item, id, recipeType, recipe);
 	}
 	
-    public int getSpeed() {
+    public AbstractMachineBlock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+		super(category, item, recipeType, recipe);
+	}
+
+	public int getSpeed() {
         return processingSpeed;
     }
     
@@ -43,9 +48,14 @@ public abstract class AbstractMachineBlock extends AbstractTickingMenuBlock impl
     public abstract int getProcessSlot();
 	public abstract boolean process(Block b, BlockMenu menu);
 	public abstract void powerLoss(Block b, BlockMenu menu);
+	public abstract ItemStack getProcessingItem(Block b);
 	
 	public void setPowerLossPerTick(int number) {
 		this.powerLossPerTick = number;
+	}
+	
+	public void setPowerCapacity(int number) {
+	
 	}
 	
 	public void setPowerLossPerProcess(int number) {
@@ -64,7 +74,9 @@ public abstract class AbstractMachineBlock extends AbstractTickingMenuBlock impl
 		}
 		
 		if(process(b, menu)) {
-			menu.replaceExistingItem(getProcessSlot(), PROCESSING_ITEM);
+			if(menu.hasViewer()) {
+				menu.replaceExistingItem(getProcessSlot(), getProcessingItem(b));	
+			}
 			removeCharge(blockLocation, powerLossPerProcess);
 		}
 	
