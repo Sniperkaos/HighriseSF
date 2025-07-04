@@ -10,7 +10,7 @@ public class ParticleUtils {
 	        Location particleLoc = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
 	        particleLoc.setX(location.getX() + Math.cos(d) * circleSize + 0.5);
 	        particleLoc.setZ(location.getZ() + Math.sin(d) * circleSize + 0.5);
-	        location.getWorld().spawnParticle(Particle.DUST, particleLoc, particleSize, color);
+	        location.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, particleSize, color);
 	    }
 	}
 	

@@ -14,7 +14,8 @@ import me.cworldstar.highriseSF.impl.listeners.PlayerAttackHandlerListener;
  * 
  * The {@link PlayerAttackHandler} is called when and only when a {@link Player} attacks a {@link Entity}. 
  * If the item that owns this {@link ItemHandler} is in the {@link Player}'s inventory, it will be called.
- * If you want any entity, instead use {@link io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler}.
+ * Unlike {@link io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler}, this triggers EVERY
+ * SlimefunItem in the {@link Player}'s {@link Inventory}, rather than just the weapon used.
  * @author cworldstar
  *
  */

@@ -28,7 +28,7 @@ public class Registry {
 	private static Map<String, SlimefunItem> items = new HashMap<String, SlimefunItem>();
 	private static List<UURecipe> recipes = new ArrayList<UURecipe>();
 	private static Map<String, ItemGroup> groups = new HashMap<String, ItemGroup>();
-	private static final MultiGroup DEFAULT_ITEM_GROUP = new MultiGroup(HighriseSF.namespacedKey("DEFAULT_ITEM_GROUP"), CustomItemStack.create(new ItemStack(Material.BLUE_CONCRETE_POWDER), "HighriseSF", ""), "&c&lHighriseSF");
+	private static final MultiGroup DEFAULT_ITEM_GROUP = new MultiGroup(HighriseSF.namespacedKey("DEFAULT_ITEM_GROUP"), new CustomItemStack(new ItemStack(Material.BLUE_CONCRETE_POWDER), "HighriseSF", ""), "&c&lHighriseSF");
 	
 	public Registry() {
 		throw new Error("This is a static class!");
@@ -66,6 +66,10 @@ public class Registry {
 		return items.get(s);
 	}
 	
+	public static @Nullable ItemStack getRegistryItemAsItemStack(String s) {
+		return getRegistryItem(s).getItem();
+	}
+	
 	public static void finalizeRegistry() {
 		if(closed == true) {
 			return;
@@ -76,22 +80,22 @@ public class Registry {
 			HighriseSFRegistryEvent event = new HighriseSFRegistryEvent(item);
 			Bukkit.getServer().getPluginManager().callEvent(event);
 			if(!event.cancelled()) {
-				HighriseSF.log("Registering " + item.getId());
 				item.register(HighriseSF.get());
+				HighriseSF.log("Registering " + item.getId());
 			}
 		});
 		HighriseSF.log("Item registration phase complete. If you see an issue, create an issue report.");
 
 		HighriseSF.log("Registering UU Matter recipes...");
 		recipes.forEach((UURecipe item) -> {
-			HighriseSF.log("Registering " + item.key());
 			item.register();
+			HighriseSF.log("Registering " + item.key());
 		});
 		HighriseSF.log("UU Matter recipe phase complete. If you see an issue, create an issue report.");
 
 		
 		//-- register
-		getDefaultItemGroup();
+		getDefaultItemGroup(	);
 		HighriseSF.log("The registry is now finalized. No new items may be added nor removed.");
 		Bukkit.getServer().getPluginManager().callEvent(new HighriseSFRegistryPreFinalizeEvent());
 		

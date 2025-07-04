@@ -15,14 +15,18 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import me.cworldstar.highriseSF.impl.Registry;
+import me.cworldstar.highriseSF.impl.commands.IMCommand;
 import me.cworldstar.highriseSF.impl.events.HighriseSFTickEvent;
 import me.cworldstar.highriseSF.impl.handlers.PlayerAttackHandler;
 import me.cworldstar.highriseSF.impl.items.HighriseSFItems;
 import me.cworldstar.highriseSF.impl.items.UURecipes;
+import me.cworldstar.highriseSF.impl.items.armor.BerserkerArmorSet;
 import me.cworldstar.highriseSF.impl.items.armor.NaturalArmorSet;
 import me.cworldstar.highriseSF.impl.listeners.BlockBreakListener;
+import me.cworldstar.highriseSF.impl.listeners.DurabilityDamageListener;
 import me.cworldstar.highriseSF.impl.listeners.HighriseSFTickListener;
 import me.cworldstar.highriseSF.impl.listeners.PlayerCraftListener;
+import me.cworldstar.highriseSF.impl.protocols.CustomArmorDurabilityProtocol;
 
 public class HighriseSF extends JavaPlugin implements SlimefunAddon {
 
@@ -79,15 +83,26 @@ public class HighriseSF extends JavaPlugin implements SlimefunAddon {
     	
     	plugin = this;
     	
-    	//-- register UU recipes before registry finalization (IMPORTANT!)
-    	new UURecipes();
-    	
     	try {
+        	HighriseSF.log("Registering HighriseSF Items");
         	new HighriseSFItems(); //-- initialize the HighriseSFItems class, which will handle every SF item in the plugin.
-        	//-- Register armor sets
-        	new NaturalArmorSet();
+        	HighriseSF.log("Done");
         	
+        	//-- register UU recipes before registry finalization (IMPORTANT!)
+        	HighriseSF.log("Registering UU Recipes");
+        	new UURecipes();
+        	HighriseSF.log("Done");
+        	
+        	//-- Register armor sets
+        	HighriseSF.log("Registering Armor Sets");
+        	new NaturalArmorSet();
+        	new BerserkerArmorSet();
+        	HighriseSF.log("Done");
+   
+
+        	HighriseSF.log("Finalizing Registry");
         	Registry.finalizeRegistry(); //-- finalize the registry, creating every item.
+        	HighriseSF.log("Done");
     	} catch(Throwable e) {
     		e.printStackTrace();
     	}
@@ -103,15 +118,22 @@ public class HighriseSF extends JavaPlugin implements SlimefunAddon {
     		}
     	}
     	
+    	getCommand("itemmeta").setExecutor(new IMCommand());
+    	
     	//-- Register our handlers
     	PlayerAttackHandler.registerListener();
     	BlockBreakListener.register();
     	PlayerCraftListener.register();
     	HighriseSFTickListener.register();
+    	DurabilityDamageListener.register(DurabilityDamageListener.class);
+    	CustomArmorDurabilityProtocol.start();
     	
     	Bukkit.getServer().getAsyncScheduler().runAtFixedRate(
         		plugin, 
         		(ScheduledTask task) -> {
+        			
+        			if(Slimefun.instance() == null) return;
+        			
         			if(!(HighriseSF.this.lastSlimefunTick == 0)) {
             			HighriseSF.this.slimefunTickDelta = (System.currentTimeMillis() - HighriseSF.this.lastSlimefunTick) / Slimefun.getTickerTask().getTickRate();
         			}

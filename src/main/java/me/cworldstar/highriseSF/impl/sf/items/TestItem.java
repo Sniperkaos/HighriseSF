@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.cworldstar.highriseSF.HighriseSF;
 import me.cworldstar.highriseSF.impl.MachineBlock;
 import me.cworldstar.highriseSF.impl.Registry;
-import me.cworldstar.highriseSF.impl.items.HighriseSFItems;
 import me.cworldstar.highriseSF.utils.FormatUtils;
 import me.cworldstar.highriseSF.utils.ParticleUtils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -47,7 +46,7 @@ public class TestItem extends MachineBlock {
 		
 		ItemStack item = PROCESSING_ITEM;
 		ItemMeta meta = item.getItemMeta();
-		meta.customName(Component.text(FormatUtils.formatString("&aProcessing...&r &a&l" + String.valueOf(process_time) + "&7/&c&l1024")));
+		meta.displayName(Component.text(FormatUtils.formatString("&aProcessing...&r &a&l" + String.valueOf(process_time) + "&7/&c&l1024")));
 		item.setItemMeta(meta);
 		
 		return item;

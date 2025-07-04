@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.math.RandomUtils;
 import me.cworldstar.highriseSF.HighriseSF;
+import me.cworldstar.highriseSF.impl.items.HighriseSFItemStacks;
 
 public class BlockBreakListener implements Listener {
 	
@@ -61,7 +62,8 @@ public class BlockBreakListener implements Listener {
 	      SlimefunItems.ALUMINUM_DUST,
 	      SlimefunItems.MAGNESIUM_DUST,
 	      SlimefunItems.LEAD_DUST,
-	      SlimefunItems.SILVER_DUST
+	      SlimefunItems.SILVER_DUST,
+	      HighriseSFItemStacks.THORIUM_DUST
 	    ));
 		REQUIRED_BROKEN_BLOCKS.addAll(List.of(Material.STONE, Material.DEEPSLATE));
 	}
@@ -75,6 +77,11 @@ public class BlockBreakListener implements Listener {
 	
 	@EventHandler
 	public void onBlockBreakEvent(BlockBreakEvent e) {
+		
+		if(!REQUIRED_BROKEN_BLOCKS.contains(e.getBlock().getType())) {
+			return;
+		}
+		
 		int dustChanceIncrease = 0;
 		Player p = e.getPlayer();
 		@NotNull Collection<PotionEffect> effects = p.getActivePotionEffects();
@@ -86,14 +93,14 @@ public class BlockBreakListener implements Listener {
 			}
 		}
 		
-		boolean shouldDropDust = RandomUtils.nextInt(10 + (dustChanceIncrease)) >= 10;
+		boolean shouldDropDust = (RandomUtils.nextInt(75 + (dustChanceIncrease))+1) >= 75;
 		@Nonnull SlimefunItemStack dustDrop = DROPPED_DUSTS.get(RandomUtils.nextInt(DROPPED_DUSTS.size()));
 		if(!shouldDropDust) return;
 		
 		double drops = 1.0D;
 		ItemStack i = e.getPlayer().getInventory().getItemInMainHand();
-		if(i.containsEnchantment(Enchantment.FORTUNE)) {
-			double multiplier = handleFortune(i.getEnchantmentLevel(Enchantment.FORTUNE));
+		if(i.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
+			double multiplier = handleFortune(i.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
 			drops *= multiplier;
 		}
 		

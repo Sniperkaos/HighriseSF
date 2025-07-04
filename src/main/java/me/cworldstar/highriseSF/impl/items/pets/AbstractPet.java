@@ -38,35 +38,15 @@ public abstract class AbstractPet extends SlimefunItem implements NotPlaceable {
 		this.snackAmount = amount;
 	}
 	
-	private void setup() {
-		
-		addItemHandler(new NewInstanceHandler() {
-			@Override
-			public void onNewInstance(ItemStack output) {
-				updateLore(output);
-			}
-		});
-		
-		addItemHandler(new BlockPlaceHandler(false) {
-			@Override
-			public void onPlayerPlace(BlockPlaceEvent e) {
-				e.setCancelled(true);
-				e.getPlayer().sendMessage(FormatUtils.formatString("&7You cannot place a pet!"));
-			}
-		});
-	}
-	
 	public abstract Class<? extends AbstractPet> getIdentifier();
 	
 	public AbstractPet(ItemGroup itemGroup, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(itemGroup, item, id, recipeType, recipe);
-		setup();
 	}
 	
 	public AbstractPet(ItemGroup itemGroup, SlimefunItemStack item, String id, RecipeType recipeType,
 			ItemStack[] recipe) {
 		super(itemGroup, item, recipeType, recipe);
-		setup();
 	}
 
 	public int getMaxFood() {
@@ -136,7 +116,7 @@ public abstract class AbstractPet extends SlimefunItem implements NotPlaceable {
 		if(petIntegrity < amount) {
 			updateFood(petItemStack, 0.0);
 		} else {
-			updateFood(petItemStack, (double) (-amount));
+			updateFood(petItemStack, petIntegrity - (double) (amount));
 		}
 	}
 	
@@ -157,6 +137,7 @@ public abstract class AbstractPet extends SlimefunItem implements NotPlaceable {
 				player.playSound(player, Sound.ENTITY_CAMEL_EAT, 1, 1);
 				item.setAmount(item.getAmount() - this.snackAmount);
 				updateFood(pet, 100);
+				updateLore(pet);
 				return true;
 			}
 		}

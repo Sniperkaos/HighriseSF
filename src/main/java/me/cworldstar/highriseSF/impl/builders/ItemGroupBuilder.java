@@ -1,14 +1,13 @@
 package me.cworldstar.highriseSF.impl.builders;
 
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.cworldstar.highriseSF.HighriseSF;
 import me.cworldstar.highriseSF.groups.InvisibleGroup;
 
 public class ItemGroupBuilder {
 	
-	private ItemStack item;
+	private CustomItemStack item;
 	private String id;
 	private int tier;
 	
@@ -16,7 +15,7 @@ public class ItemGroupBuilder {
 		
 	}
 	
-	public ItemGroupBuilder setItem(ItemStack item) {
+	public ItemGroupBuilder setItem(CustomItemStack item) {
 		this.item = item;
 		return this;
 	}

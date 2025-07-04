@@ -1,20 +1,19 @@
 package me.cworldstar.highriseSF.impl.recipeTypes;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.cworldstar.highriseSF.HighriseSF;
 import me.cworldstar.highriseSF.impl.Registry;
-import me.cworldstar.highriseSF.impl.server.RecipeManager;
 
 public class UURecipe {
 	
-	private final Map<Character, Object> UU_RECIPE_KEY = new HashMap<Character, Object>();
-	
 	private ItemStack output;
-	private String[] recipe;
+	private ItemStack[] recipe;
 	private String recipeID;
 	
 	/**
@@ -22,9 +21,10 @@ public class UURecipe {
 	 * @param recipe List of any letters in a pattern. They will be replaced with the UU matter ItemStack at runtime.
 	 * @param output The output that this recipe should create.
 	 */
+	
 	public UURecipe(String recipeID, String[] recipe, ItemStack output) {
 		this.output = output;
-		this.recipe = recipe;
+		this.recipe = Arrays.asList(recipe).stream().map(str -> str == " " ? null : Registry.getRegistryItem("HRSF_UU_MATTER").getItem()).collect(Collectors.toList()).toArray(new ItemStack[0]);
 		this.recipeID = recipeID;
 	}
 	
@@ -32,13 +32,13 @@ public class UURecipe {
 		return this.output;
 	}
 	
-	public String[] recipe() {
+	public ItemStack[] recipe() {
 		return this.recipe;
 	}
 	
 	public void register() {
-		UU_RECIPE_KEY.put('U', RecipeManager.createExactChoice(Registry.getRegistryItem("HRSF_UU_MATTER").getItem()));
-		RecipeManager.add(RecipeManager.createShapedRecipe(recipeID, output, recipe, UU_RECIPE_KEY));
+		HighriseSF.log(List.of(recipe()).toString());
+		RecipeType.ENHANCED_CRAFTING_TABLE.register(recipe(), output);
 	}
 
 	public String key() {

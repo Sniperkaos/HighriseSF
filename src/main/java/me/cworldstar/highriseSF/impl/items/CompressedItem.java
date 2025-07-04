@@ -22,7 +22,7 @@ public class CompressedItem {
 	private List<SlimefunItem> items = new ArrayList<SlimefunItem>();
 	
 	private SlimefunItem fromItemStack(ItemGroup group, ItemStack i, String id, RecipeType type, ItemStack[] recipe) {
-		return new SlimefunItem(group, new SlimefunItemStack(id, i), type, recipe);
+		return new SlimefunItem(group, new SlimefunItemStack(id, i.asOne()), type, recipe);
 	}
 	
 	public CompressedItem(ItemGroup itemGroup, Material m) {
@@ -40,9 +40,9 @@ public class CompressedItem {
 			materialName += " ";
 		}
 		
-		ItemStack COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&cCompressed " + materialName);
-		ItemStack DOUBLE_COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&4Double Compressed " + materialName);
-		ItemStack TRIPLE_COMPRESSED_ITEM = CustomItemStack.create(materialItemStack, "&6Triple Compressed " + materialName);
+		CustomItemStack COMPRESSED_ITEM = new CustomItemStack(materialItemStack, "&cCompressed " + materialName);
+		CustomItemStack DOUBLE_COMPRESSED_ITEM = new CustomItemStack(materialItemStack, "&4Double Compressed " + materialName);
+		CustomItemStack TRIPLE_COMPRESSED_ITEM = new CustomItemStack(materialItemStack, "&6Triple Compressed " + materialName);
 		
 		items.add(fromItemStack(itemGroup, COMPRESSED_ITEM, "COMPRESSED_"+ materialName.toUpperCase(), RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
 				materialItemStack, materialItemStack, materialItemStack,

@@ -33,8 +33,7 @@ public class NaturalArmorSet extends AbstractArmorSet {
 				new ArmorSetPiece(Registry.getItemGroup("armor_group"),
 							new LeatherArmorBuilder(Material.LEATHER_HELMET)
 								.setColor(Color.GREEN)
-								.setUnbreakable(true)
-								.setAttributeValue(Attribute.ARMOR, "ARMOR_SET_ARMOR", 5)
+								.setAttributeValue(Attribute.GENERIC_ARMOR, "ARMOR_SET_ARMOR", 5)
 								.addFlag(ItemFlag.HIDE_UNBREAKABLE)
 								.setName("&a&lDruid's Helmet")
 								.setLore(new String[] {
@@ -46,15 +45,14 @@ public class NaturalArmorSet extends AbstractArmorSet {
 										}
 								)
 								.get(), "DRUID_HELMET", RecipeType.NULL, null
-						)
+						).setMaxDurability(600, true)
 				);
 		
 		this.addArmorPiece(
 				new ArmorSetPiece(Registry.getItemGroup("armor_group"),
 							new LeatherArmorBuilder(Material.LEATHER_CHESTPLATE)
 								.setColor(Color.LIME)
-								.setUnbreakable(true)
-								.setAttributeValue(Attribute.ARMOR, "ARMOR_SET_ARMOR", 5)
+								.setAttributeValue(Attribute.GENERIC_ARMOR, "ARMOR_SET_ARMOR", 5)
 								.addFlag(ItemFlag.HIDE_UNBREAKABLE)
 								.setName("&a&lDruid's Chestplate")
 								.setLore(new String[] {
@@ -66,14 +64,13 @@ public class NaturalArmorSet extends AbstractArmorSet {
 										}
 								)
 								.get(), "DRUID_CHESTPLATE", RecipeType.NULL, null
-						)
+						).setMaxDurability(600, true)
 				);
 		this.addArmorPiece(
 				new ArmorSetPiece(Registry.getItemGroup("armor_group"),
 							new LeatherArmorBuilder(Material.LEATHER_LEGGINGS)
 								.setColor(Color.GREEN)
-								.setUnbreakable(true)
-								.setAttributeValue(Attribute.ARMOR, "ARMOR_SET_ARMOR", 5)
+								.setAttributeValue(Attribute.GENERIC_ARMOR, "ARMOR_SET_ARMOR", 5)
 								.addFlag(ItemFlag.HIDE_UNBREAKABLE)
 								.setName("&a&lDruid's Leggings")
 								.setLore(new String[] {
@@ -85,14 +82,13 @@ public class NaturalArmorSet extends AbstractArmorSet {
 										}
 								)
 								.get(), "DRUID_LEGGINGS", RecipeType.NULL, null
-						)
+						).setMaxDurability(600, true)
 				);
 		this.addArmorPiece(
 				new ArmorSetPiece(Registry.getItemGroup("armor_group"),
 							new LeatherArmorBuilder(Material.LEATHER_BOOTS)
 								.setColor(Color.GRAY)
-								.setUnbreakable(true)
-								.setAttributeValue(Attribute.ARMOR, "ARMOR_SET_ARMOR", 5)
+								.setAttributeValue(Attribute.GENERIC_ARMOR, "ARMOR_SET_ARMOR", 5)
 								.addFlag(ItemFlag.HIDE_UNBREAKABLE)
 								.setName("&a&lDruid's Boots")
 								.setLore(new String[] {
@@ -104,7 +100,7 @@ public class NaturalArmorSet extends AbstractArmorSet {
 										}
 								)
 								.get(), "DRUID_BOOTS", RecipeType.NULL, null
-						)
+						).setMaxDurability(600, true)
 				);
 	}
 
@@ -132,8 +128,10 @@ public class NaturalArmorSet extends AbstractArmorSet {
 							}
 						}
 					}
-					p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 2000, 1));
-					p.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 2000, 2));
+					p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 50, 1));
+					if(!p.hasPotionEffect(PotionEffectType.HEALTH_BOOST)) {
+						p.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 500000000, 2));
+					}
 				} else {
 					if(this.equipped.get(p) == true) {
 						this.equipped.put(p, false);
